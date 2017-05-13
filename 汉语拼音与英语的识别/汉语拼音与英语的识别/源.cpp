@@ -66,7 +66,7 @@ bool chinese(char* &input)
 	}
 	temp[k] = '\0';
 	/**************************************get shengmu*****************************************/
-	//char* shengmu1 = new char[strlen(temp) + 1];
+
 	int shengmuNum = shengmu(temp);
 
 	int flag = yunmu(temp, shengmuNum);
