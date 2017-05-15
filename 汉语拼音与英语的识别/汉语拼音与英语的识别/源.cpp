@@ -5,10 +5,12 @@ bool chinese(char* &);
 int shengmu(char* a);
 bool yunmu(char*, int);
 
+#define ArrayLong 20000
+
 void main()
 {
-	char *input = new char[1000];
-	cin.getline(input, 1000);
+	char *input = new char[ArrayLong];
+	cin.getline(input, ArrayLong);
 	int flag = 0;
 	int i = 0;
 	for (i = 0; i < 5; i++)                //ÅĞ¶Ï5´Î
@@ -20,15 +22,19 @@ void main()
 		else
 		{
 			int k = 0;
-			while (input[k] != '\x20')
+			while ((input[k]>='a'&&input[k]<='z')||(input[k]>='A'&&input[k]<='Z') )
 			{
 				k++;
-				if (k > 1000) break;
+				if (k > ArrayLong) break;
 			}
-			if (k > 1000) break;
-			for (int i = 0; k < 1000; k++, i++)
+			if (k > ArrayLong) break;
+			while ((input[k] < 'a' || input[k] > 'z') && (input[k] < 'A' || input[k] > 'Z'))
 			{
-				input[i] = input[k + 1];
+				k++;
+			}
+			for (int i = 0; k < ArrayLong; k++, i++)
+			{
+				input[i] = input[k];
 			}
 			flag += chinese(input);
 		}
@@ -43,7 +49,7 @@ void main()
 		cout << "You input English" << endl;
 	}
 
-	system("pause");
+	//system("pause");
 
 	if (input)
 	{
