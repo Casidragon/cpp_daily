@@ -49,6 +49,7 @@ void main()
 		cout << "You input English" << endl;
 	}
 
+	//system("pause");
 
 	if (input)
 	{
