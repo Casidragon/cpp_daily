@@ -8,13 +8,14 @@
 #include<iostream>
 #include<ostream>
 #include<fstream>
+#include<string>
 using namespace std;
 
 class person
 {
 	int dou;
 public:
-	person(int a)
+	person(int a = 0)
 		:dou(a) {}
 	void print()
 	{
@@ -24,57 +25,86 @@ public:
 	{
 		return dou;
 	}
+	operator int()
+	{
+		return dou;
+	}
 };
 
 class Jum
 {
-public:
 	person a, b, c, d, e;
+	static int Dead1, Dead2, Dead3, Dead4, Dead5;
+	static int RunTimes;
 public:
-	Jum(int a1, int a2, int a3, int a4, int a5)
-		:a(a1), b(a2), c(a3), d(a4), e(a5) {  }
-	void print()
+	Jum(int a1 = 0, int a2 = 0, int a3 = 0, int a4 = 0, int a5 = 0)
+		:a(a1),b(a2),c(a3),d(a4),e(a5){}
+	int GetRunTimes()
 	{
-		a.print();
-		b.print();
-		c.print();
-		d.print();
-		e.print();
-		cout << endl;
+		return RunTimes;
 	}
-	friend ofstream &operator << (ofstream &t, Jum& m)
+	friend ostream &operator << (ostream &t, Jum& m)
 	{
 		t << m.a.getnum() << '\t' << m.b.getnum() << '\t' << m.c.getnum() << '\t' << m.d.getnum() << '\t' << m.e.getnum() << endl;
 		return t;
 	}
-	void judge()
+	void output(string FileName)
 	{
-
+		ofstream k(FileName, ios::out | ios::app);
+		k << *this;
+		k.close();
 	}
-};
-
-int main()
-{
-	int a = 0, b = 0, c = 0, d = 0, e = 0;
-	for (a = 1; a <= 96; a++)
+	void judge_a(int num_a)
 	{
-		for (b = 1; b <= 100 - a - 3; b++)
+		a = num_a;
+		int max = a, min = a;
+		if (a >= 1 && a <= 20)
 		{
-			for (c = 1; c <= 100 - a - b - 2; c++)
+			b = c = d = e = a;
+			RunTimes++;
+			cout << *this;
+			this->output("a.txt");
+		}
+		if (a > 20 && a <= 93)//94,95,06
+		{
+			for (int i = Min((int)((100 - a) / 4) + 1, 97 - a); i <= a - 1 && i <= 97 - a; i++)
 			{
-				for (d = 1; d <= 100 - a - b - c - 1; d++)
+				for (int j = Min((int)(100 - a - i) / 3 + 1, 98 - i - a); j <= (int)(a + i) / 2 && j <= 98 - i - a; j++)
 				{
-					for (e = 1; e <= 100 - a - b - c - d; e++)
+					for (int k = Min((int)(100 - a - i - j) / 2 + 1, 99 - i - a - j); k <= (int)(a + i + j) / 3 && k <= 99 - i - a - j; k++)
 					{
-						Jum s(a, b, c, d, e);
-						s.print();
-						ofstream k("a.txt", ios::out | ios::app);
-						k << s;
-						k.close();
+						b = i;
+						c = j;
+						d = k;
+						e = 100 - a - b - c - d;
+						RunTimes++;
+						cout << *this;
+						this->output("a.txt");
 					}
 				}
 			}
 		}
 	}
+};
+
+int Min(int a, int b)
+{
+	if (a > b)return b;
+	else return a;
+}
+
+//int Jum::Dead1 = Jum::Dead2 = Jum::Dead3 = Jum::Dead4 = Jum::Dead5 = 0;
+int Jum::RunTimes = 0;
+
+
+int main()
+{
+	int a = 0;
+	Jum test;
+	for (a = 1; a <= 96; a++)
+	{
+		test.judge_a(a);
+	}
+	cout << test.GetRunTimes() << endl;
 	return 0;
 }
