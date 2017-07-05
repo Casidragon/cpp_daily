@@ -11,16 +11,18 @@
 #include<string>
 using namespace std;
 
+int Min(int a, int b)
+{
+	if (a > b)return b;
+	else return a;
+}
+
 class person
 {
 	int dou;
 public:
 	person(int a = 0)
 		:dou(a) {}
-	void print()
-	{
-		cout << dou << '\t';
-	}
 	int getnum()
 	{
 		return dou;
@@ -34,7 +36,7 @@ public:
 class Jum
 {
 	person a, b, c, d, e;
-	static int Dead1, Dead2, Dead3, Dead4, Dead5;
+	//static int Dead1, Dead2, Dead3, Dead4, Dead5;
 	static int RunTimes;
 public:
 	Jum(int a1 = 0, int a2 = 0, int a3 = 0, int a4 = 0, int a5 = 0)
@@ -65,33 +67,60 @@ public:
 			cout << *this;
 			this->output("a.txt");
 		}
-		if (a > 20 && a <= 93)//94,95,06
+		if (a > 20 && a <= 33)
 		{
 			for (int i = Min((int)((100 - a) / 4) + 1, 97 - a); i <= a - 1 && i <= 97 - a; i++)
 			{
-				for (int j = Min((int)(100 - a - i) / 3 + 1, 98 - i - a); j <= (int)(a + i) / 2 && j <= 98 - i - a; j++)
+				if (98 - a - i > (int)((a + i) / 2))
 				{
-					for (int k = Min((int)(100 - a - i - j) / 2 + 1, 99 - i - a - j); k <= (int)(a + i + j) / 3 && k <= 99 - i - a - j; k++)
+					for (int j = Min((int)(100 - a - i) / 3 + 1, 98 - i - a); j <= (int)((a + i) / 2) && j <= 98 - i - a; j++)
 					{
+						for (int k = Min((int)(100 - a - i - j) / 2 + 1, 99 - i - a - j); k <= (int)((a + i + j) / 3) && k <= 99 - i - a - j; k++)
+						{
+							b = i;
+							c = j;
+							d = k;
+							e = 100 - a - b - c - d;
+							RunTimes++;
+							cout << *this;
+							this->output("a.txt");
+						}
+					}
+				}
+				else
+					{
+						d = e = 1;
 						b = i;
-						c = j;
-						d = k;
-						e = 100 - a - b - c - d;
+						c = 98 - a - i;
 						RunTimes++;
 						cout << *this;
 						this->output("a.txt");
 					}
-				}
 			}
+		}
+		if (a > 33 && a <= 48)
+		{
+			for (int i = (int)(196 - 3 * a) / 3 + 1; i < a; i++)
+			{
+				b = i;
+				c = 98 - a - b;
+				d = e = 1;
+				RunTimes++;
+				cout << *this;
+				this->output("a.txt");
+			}
+		}
+		if (a >= 49 && a <= 96)
+		{
+			b = 97 - a;
+			c = d = e = 1;
+			RunTimes++;
+			cout << *this;
+			this->output("a.txt");
 		}
 	}
 };
 
-int Min(int a, int b)
-{
-	if (a > b)return b;
-	else return a;
-}
 
 //int Jum::Dead1 = Jum::Dead2 = Jum::Dead3 = Jum::Dead4 = Jum::Dead5 = 0;
 int Jum::RunTimes = 0;
@@ -108,3 +137,5 @@ int main()
 	cout << test.GetRunTimes() << endl;
 	return 0;
 }
+
+/*具体的判断可以采取打分制度*/
