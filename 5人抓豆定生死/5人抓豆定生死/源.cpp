@@ -36,7 +36,7 @@ public:
 class Jum
 {
 	person a, b, c, d, e;
-	//static int Dead1, Dead2, Dead3, Dead4, Dead5;
+	static int Dead1, Dead2, Dead3, Dead4, Dead5;
 	static int RunTimes;
 public:
 	Jum(int a1 = 0, int a2 = 0, int a3 = 0, int a4 = 0, int a5 = 0)
@@ -56,16 +56,42 @@ public:
 		k << *this;
 		k.close();
 	}
-	void judge_a(int num_a)
+	void judge_b()
+	{
+		int max = a, min = a;
+		int array_Jum[5] = { a,b,c,d,e };
+		for (int i = 1; i < 5; i++)
+		{
+			if (array_Jum[i] > max) max = array_Jum[i];
+			if (array_Jum[i] < min) min = array_Jum[i];
+		}
+		for (int i = 0; i < 5; i++)
+		{
+			if (max == array_Jum[i] || min == array_Jum[i])
+			{
+				switch (i)
+				{
+				case 0:Dead1++; break;
+				case 1:Dead2++; break;
+				case 2:Dead3++; break;
+				case 3:Dead4++; break;
+				case 4:Dead5++; break;
+				default:
+					break;
+				}
+			}
+		}
+	}
+	void judge_a(int num_a, string FileName)
 	{
 		a = num_a;
-		int max = a, min = a;
 		if (a >= 1 && a <= 20)
 		{
 			b = c = d = e = a;
 			RunTimes++;
 			cout << *this;
-			this->output("a.txt");
+			this->output(FileName);
+			this->judge_b();
 		}
 		if (a > 20 && a <= 33)
 		{
@@ -83,7 +109,8 @@ public:
 							e = 100 - a - b - c - d;
 							RunTimes++;
 							cout << *this;
-							this->output("a.txt");
+							this->output(FileName);
+							this->judge_b();
 						}
 					}
 				}
@@ -94,7 +121,8 @@ public:
 						c = 98 - a - i;
 						RunTimes++;
 						cout << *this;
-						this->output("a.txt");
+						this->output(FileName);
+						this->judge_b();
 					}
 			}
 		}
@@ -107,7 +135,8 @@ public:
 				d = e = 1;
 				RunTimes++;
 				cout << *this;
-				this->output("a.txt");
+				this->output(FileName);
+				this->judge_b();
 			}
 		}
 		if (a >= 49 && a <= 96)
@@ -116,13 +145,34 @@ public:
 			c = d = e = 1;
 			RunTimes++;
 			cout << *this;
-			this->output("a.txt");
+			this->output(FileName);
+			this->judge_b();
 		}
+	}
+	void PrintProbability(string FileName)
+	{
+		cout << "第一个人死亡的概率：" << (double) ((double)Dead1 / RunTimes) * 100 << "%" << '\n';
+		cout << "第二个人死亡的概率：" << (double) ((double)Dead2 / RunTimes) * 100 << "%" << '\n';
+		cout << "第三个人死亡的概率：" << (double) ((double)Dead3 / RunTimes) * 100 << "%" << '\n';
+		cout << "第四个人死亡的概率：" << (double) ((double)Dead4 / RunTimes) * 100 << "%" << '\n';
+		cout << "第五个人死亡的概率：" << (double) ((double)Dead5 / RunTimes) * 100 << "%" << endl;
+		ofstream k(FileName, ios::out | ios::app);
+		k << "第一个人死亡的概率：" << (double) ((double)Dead1 / RunTimes) * 100 << "%" << '\n';
+		k << "第二个人死亡的概率：" << (double) ((double)Dead2 / RunTimes) * 100 << "%" << '\n';
+		k << "第三个人死亡的概率：" << (double) ((double)Dead3 / RunTimes) * 100 << "%" << '\n';
+		k << "第四个人死亡的概率：" << (double) ((double)Dead4 / RunTimes) * 100 << "%" << '\n';
+		k << "第五个人死亡的概率：" << (double) ((double)Dead5 / RunTimes) * 100 << "%" << endl;
+		k.close();
+
 	}
 };
 
 
-//int Jum::Dead1 = Jum::Dead2 = Jum::Dead3 = Jum::Dead4 = Jum::Dead5 = 0;
+int Jum::Dead1 = 0;
+int Jum::Dead2 = 0;
+int Jum::Dead3 = 0;
+int Jum::Dead4 = 0;
+int Jum::Dead5 = 0;
 int Jum::RunTimes = 0;
 
 
@@ -130,10 +180,12 @@ int main()
 {
 	int a = 0;
 	Jum test;
+	string FileName = "a.txt";
 	for (a = 1; a <= 96; a++)
 	{
-		test.judge_a(a);
+		test.judge_a(a, FileName);
 	}
+	test.PrintProbability(FileName);
 	cout << test.GetRunTimes() << endl;
 	return 0;
 }
